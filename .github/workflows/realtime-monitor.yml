@@ -1,0 +1,39 @@
+name: Real-Time Attendance Monitor
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # Run every 5 minutes during work hours (8:00 AM to 11:00 AM IST)
+    - cron: '*/5 2-5 * * 1-6'  # 8:00-11:00 AM IST = 2:30-5:30 AM UTC
+  workflow_dispatch:
+
+jobs:
+  attendance-monitor:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pymssql pandas python-dotenv
+        
+    - name: Run Real-Time Attendance Monitor
+      env:
+        DB_SERVER: ${{ secrets.DB_SERVER }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        EMAIL_USER: ${{ secrets.EMAIL_USER }}
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+      run: python realtime_monitor.py
