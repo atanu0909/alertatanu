@@ -19,9 +19,9 @@ from email.mime.multipart import MIMEMultipart
 # Database configuration
 DB_SERVER = os.getenv('DB_SERVER', '1.22.45.168')
 DB_PORT = int(os.getenv('DB_PORT', '19471'))
-DB_NAME = os.getenv('DB_NAME', 'MainDb')
+DB_NAME = os.getenv('DB_NAME', 'etimetrackliteWEB')
 DB_USER = os.getenv('DB_USER', 'sa')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'YourPassword')
+DB_PASSWORD = os.getenv('DB_PASSWORD', 'sa@123')
 
 # Email configuration
 EMAIL_USER = os.getenv('EMAIL_USER', 'your_email@gmail.com')
@@ -123,8 +123,8 @@ def test_table_access():
         # Test tables
         test_queries = [
             ("Employee table", "SELECT TOP 1 * FROM dbo.Employee"),
-            ("LogInOutData table", "SELECT TOP 1 * FROM dbo.LogInOutData"),
-            ("Department table", "SELECT TOP 1 * FROM dbo.Department"),
+            ("DeviceLogs table", "SELECT TOP 1 * FROM dbo.DeviceLogs_7_2025"),
+            ("Current month DeviceLogs", f"SELECT TOP 1 * FROM dbo.DeviceLogs_{datetime.now().month}_{datetime.now().year}"),
         ]
         
         for table_name, query in test_queries:
